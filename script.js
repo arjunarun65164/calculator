@@ -60,11 +60,20 @@ function changeDisplay(){
         clearDisplay();
         inputArray.length = 0;
     }
+    if (this.innerText === "."){
+        if (display.innerText.indexOf(".") > -1)//if the number already has a decimal point ignore this click
+        return;
+    }
 
     let number = this.innerText;
     console.log(number);
     display.innerText = display.innerText + number;
     lastPress = "number";
+
+    if (display.innerText === "0" && inputArray[inputArray.length-1] === '/'){
+        display.innerText = "CANNOT DIVIDE BY 0";
+        inputArray.length = 0;
+    }
 }
 
 //clears the display when the Clear button is clicked
@@ -114,7 +123,7 @@ equal.addEventListener("click", () => {
     //Calculate the result of all the calculations
     let result = Number(inputArray[0]);
     for (let index = 2; index < inputArray.length; index = index+2){
-        result = operate(result, inputArray[index-1], inputArray[index]);
+        result = Number(operate(result, inputArray[index-1], inputArray[index]).toFixed(3));
     }
     inputArray.length = 0;
     display.innerText = result;
